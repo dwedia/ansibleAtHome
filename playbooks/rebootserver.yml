@@ -5,16 +5,17 @@
 - name: Reboot server ONLY USE WITH LIMIT
   hosts: all
   tasks:
-    - name: Wait for 30 seconds
+    - name: Wait for user confirmation
       pause:
-      prompt: "Press ctrl+c to continue or wait 30 seconds"
+        seconds: 30
+        prompt: "Press ctrl+c to continue or wait 30 seconds"
 
     - name: Reboot linux server
       shell: sudo -n reboot
 
     - name: wait for the system to come back
       pause:
-      seconds: 30
+        seconds: 30
 
     - name: wait for the system to come back
       wait_for_connection:
