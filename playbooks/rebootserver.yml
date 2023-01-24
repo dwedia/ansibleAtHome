@@ -6,6 +6,4 @@
   hosts: all
   tasks:
     - name: Reboot linux server
-      systemd:
-        state: restarted
-        name: systemd-logind
+      shell: sudo -n reboot
