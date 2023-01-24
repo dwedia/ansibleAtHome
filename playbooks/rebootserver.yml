@@ -7,3 +7,6 @@
   tasks:
     - name: Reboot linux server
       shell: sudo -n reboot
+
+    - name: wait for the system to come back
+      wait_for_connection:
