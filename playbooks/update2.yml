@@ -1,0 +1,31 @@
+---
+
+- name: apt update play
+  hosts: all
+  become: true
+  tasks:
+
+  - name: apt update
+    apt:
+      upgrade: dist
+      update_cache: yes
+    when: ("Debian") in ansible_os_family
+
+
+  - name: Check if reboot is needed for Ubuntu servers
+    register: reboot_required_file
+    stat: path=/var/run/reboot_required get_md5=0
+    when: ("Debian") in ansible_os_family
+
+  - name: dnf update
+    dnf:
+      name: '*'
+      state: latest
+      update_cache: yes
+      update_only: yes
+    when: ("RedHat") in ansible_distribution
+
+  - name: Remove packates not needed anymore
+    dnf:
+      autoremove: yes
+    when: ("RedHat") in ansible_distribution
