@@ -1,3 +1,5 @@
+## Ansible file for upgrading all packages
+# indentation: 2 spaces
 ---
 
 - name: apt update play
@@ -5,23 +7,20 @@
   become: true
   tasks:
 
+  # Checks for updates on debian based systems using APT
   - name: apt update
     apt:
       upgrade: dist
       update_cache: yes
     when: ("Debian") in ansible_os_family
 
-
+  # Checks for reboot needed on debian based systems
   - name: Check if reboot is needed for Ubuntu servers
     register: reboot_required_file
     stat: path=/var/run/reboot_required get_md5=0
     when: ("Debian") in ansible_os_family
 
-- name: dnf update play
-  hosts: all
-  become: true
-  tasks:
-
+  # Checks for updates on RedHat based systems using DNF
   - name: dnf update
     dnf:
       name: '*'
