@@ -7,7 +7,6 @@
   tasks:
     - name: Wait for 30 seconds
       pause:
-      seconds: 30
       prompt: "Press ctrl+c to continue or wait 30 seconds"
 
     - name: Reboot linux server
