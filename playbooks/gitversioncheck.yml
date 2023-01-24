@@ -39,10 +39,10 @@
 #    notify:
 #      - restart git
 
-  - name: Append to updated servers list
-    set_fact:
-      updated_servers: "{{ updated_servers + [ ansible_host ] }}"
-    when: git_update.changed
+#  - name: Append to updated servers list
+#    set_fact:
+#      updated_servers: "{{ updated_servers + [ ansible_host ] }}"
+#    when: git_update.changed
 
   - name: Print Git version
     debug:
