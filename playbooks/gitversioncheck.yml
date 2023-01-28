@@ -10,15 +10,15 @@
   - name: Check version of Git on Ubuntu servers
     shell: /usr/bin/git --version 2>&1
     when: ansible_os_family == "Debian"
-    register: git_version.stderr
+    register: git_version
     changed_when: false
   
   - name: Check version of Git on RedHat servers
     shell: /usr/bin/git --version 2>&1
     when: ansible_os_family == "RedHat"
-    register: git_version.stderr
+    register: git_version
     changed_when: false
   
   - name: Print Git version
     debug:
-      msg: "Git version is {{ git_version.stderr }}"
+      msg: "Git version is {{ git_version.stdout }}"
