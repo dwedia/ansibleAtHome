@@ -7,15 +7,8 @@
   tasks:
     - name: Wait for user confirmation
       pause:
-        seconds: 30
-        prompt: "Press ctrl+c to continue or wait 30 seconds"
+        seconds: 300
+        prompt: "Press ctrl+c to continue or wait 300 seconds - DID YOU REMEMBER TO USE LIMIT?"
 
     - name: Reboot linux server
-      shell: sudo -n reboot
-
-    - name: wait for the system to come back
-      pause:
-        seconds: 30
-
-    - name: wait for the system to come back
-      wait_for_connection:
+      command: reboot
