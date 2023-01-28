@@ -6,19 +6,12 @@
   hosts: all
   gather_facts: true
   tasks:
-  
-  - name: Check version of Git on Ubuntu servers
-    shell: /usr/bin/git --version 2>&1
-    when: ansible_os_family == "Debian"
-    register: git_version
-    changed_when: false
-  
+
   - name: Check version of Git on RedHat servers
-    shell: /usr/bin/git --version 2>&1
-    when: ansible_os_family == "RedHat"
+    shell: git --version 2>&1
     register: git_version
     changed_when: false
-  
+
   - name: Print Git version
     debug:
       msg: "Git version is {{ git_version.stdout }}"
