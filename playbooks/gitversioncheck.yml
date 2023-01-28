@@ -21,4 +21,4 @@
   
   - name: Print Git version
     debug:
-      msg: "Git version is {{ git_version.stdout_lines[0] }}"
+      msg: "Git version is {{ git_version.stdout }}"
