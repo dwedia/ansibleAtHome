@@ -9,7 +9,7 @@
         autoclean: 'yes'
         autoremove: 'yes'
       register: aptout
-      when: ansible_facts['distribution'] == "Debian" or ansible_facts['distribution'] == "Ubuntu"
+      when: ansible_facts['os_family'] == "Debian"
 
     - name: Output APT
       debug: msg="{{ aptout.stdout_lines }}"
@@ -19,7 +19,7 @@
       dnf:
         list: updates
       register: packages
-      when: ansible_facts['distribution'] == "Fedora"
+      when: ansible_facts['os_family'] == "RedHat"
 
     - name: Show packages to upgrade
       debug:
@@ -29,18 +29,18 @@
           {{ output.append('%-40s' % (p.name ~ '-' ~ p.version) ~ ' | repo: ' ~ p.repo) }}
           {%- endfor -%}
           {{ output }}
-      when: ansible_facts['distribution'] == "Fedora"
+      when: ansible_facts['os_family'] == "RedHat"
 
     - name: Upgrade all packages
       ansible.builtin.dnf:
         name: "*"
         state: latest
-      when: ansible_facts['distribution'] == "Fedora"
+      when: ansible_facts['os_family'] == "RedHat"
 
     - name: Autoremove unneeded packages installed as dependencies
       ansible.builtin.dnf:
         autoremove: yes
-      when: ansible_facts['distribution'] == "Fedora"
+      when: ansible_facts['os_family'] == "RedHat"
 
     - name: Update TLDR cache
       command: /usr/bin/tldr -u
