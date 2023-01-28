@@ -1,0 +1,87 @@
+- hosts: localhost
+  become: true
+  become_user: root
+  tasks:
+    - name: "[DEBIAN] Updating cache, installing upgrades, running auotclean and autoremove afterwards"
+      apt:
+        update_cache: 'yes'
+        upgrade: 'yes'
+        autoclean: 'yes'
+        autoremove: 'yes'
+      register: aptout
+      when: ansible_facts['distribution'] == "Debian" or ansible_facts['distribution'] == "Ubuntu"
+
+    - name: Output APT
+      debug: msg="{{ aptout.stdout_lines }}"
+      when: aptout.stdout_lines is defined
+
+    - name: Check packages to upgrade
+      dnf:
+        list: updates
+      register: packages
+      when: ansible_facts['distribution'] == "Fedora"
+
+    - name: Show packages to upgrade
+      debug:
+        msg: >-
+          {%- set output=[] -%}
+          {%- for p in packages.results -%}
+          {{ output.append('%-40s' % (p.name ~ '-' ~ p.version) ~ ' | repo: ' ~ p.repo) }}
+          {%- endfor -%}
+          {{ output }}
+      when: ansible_facts['distribution'] == "Fedora"
+
+    - name: Upgrade all packages
+      ansible.builtin.dnf:
+        name: "*"
+        state: latest
+      when: ansible_facts['distribution'] == "Fedora"
+
+    - name: Autoremove unneeded packages installed as dependencies
+      ansible.builtin.dnf:
+        autoremove: yes
+      when: ansible_facts['distribution'] == "Fedora"
+
+    - name: Update TLDR cache
+      command: /usr/bin/tldr -u
+      register: tldrout
+      ignore_errors: yes
+
+    - name: Output from TLDR-command
+      debug: msg="{{ tldrout.stdout_lines }}"
+      when: tldrout.stdout_lines is defined
+
+    - name: Update clamav
+      command: /usr/bin/freshclam --verbose
+      register: clamout
+      ignore_errors: yes
+
+    - name: Output from CLAMAV-command
+      debug: msg="{{ clamout.stdout_lines }}"
+      when: clamout.stdout_lines is defined
+
+    - name: Update snap packages
+      command: /usr/bin/snap refresh
+      register: snapout
+      ignore_errors: yes
+
+    - name: Output from snap-command
+      ansible.builtin.debug:
+        #msg: "{{ snapout.stdout_lines | replace('\u001b[0m\u001b[?25h\u001b[K', 'All snaps up to date.') }}"
+        msg: "{{ snapout.stdout_lines }}"
+      when: snapout.stdout_lines is defined
+
+    - name: Update flatpak packages
+      command: /usr/bin/flatpak update -y
+      register: flatout
+      ignore_errors: yes
+
+    - name: Output from flatpak-command
+      debug: msg="{{ flatout.stdout_lines }}"
+      when: flatout.stdout_lines is defined
+
+    - name: Check if a reboot is needed on all servers
+      register: reboot_required_file
+      stat: path=/var/run/reboot-required get_md5=no
+      notify: Localhost needs to reboot
+      ignore_errors: yes
