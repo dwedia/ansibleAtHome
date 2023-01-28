@@ -1,6 +1,5 @@
 - hosts: all
   become: true
-  # become_user: ansibleuser
   tasks:
     - name: "[DEBIAN] Updating cache, installing upgrades, running auotclean and autoremove afterwards"
       apt:
