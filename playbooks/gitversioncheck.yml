@@ -8,13 +8,13 @@
   tasks:
   
   - name: Check version of Git on Ubuntu servers
-    command: git --version
+    shell: git --version
     when: ansible_os_family == "Debian"
     register: git_version
     changed_when: false
   
   - name: Check version of Git on RedHat servers
-    command: git --version
+    shell: git --version
     when: ansible_os_family == "RedHat"
     register: git_version
     changed_when: false
