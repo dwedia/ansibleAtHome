@@ -14,7 +14,7 @@
     changed_when: false
   
   - name: Check version of Git on RedHat servers
-    shell: git --version
+    shell: /usr/bin/git --version
     when: ansible_os_family == "RedHat"
     register: git_version
     changed_when: false
