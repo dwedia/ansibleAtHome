@@ -58,7 +58,7 @@
       register: tldr_service_status
 
     - name: Update TLDR cache
-      command: /usr/bin/tldr -u
+      command: /usr/bin/tldr --update
       register: tldrout
       when: tldr_service_status.stat.exists
 
