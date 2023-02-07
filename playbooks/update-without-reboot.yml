@@ -7,13 +7,6 @@
   vars:
     ansible_become_pass: "{{ sudo_password }}"
 
-  pre_tasks:
-    - name: Load vault password
-      include_vars:
-        file: /home/ansibleadmin/ansibleAtHome/vaultp
-        name: vaultp
-      no_log: true
-
   tasks:
 
 #### Apt ####
