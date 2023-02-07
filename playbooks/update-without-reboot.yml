@@ -2,7 +2,7 @@
   become: true
 
   vars_files:
-    - ~/Documents/HomeNet/ansibleAtHome/playbooks/vault/vaultfile.yml
+    - /home/ansibleadmin/ansibleAtHome/playbooks/vault/vaultfile.yml
 
   vars:
     ansible_become_pass: "{{ sudo_password }}"
