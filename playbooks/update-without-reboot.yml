@@ -10,11 +10,9 @@
   pre_tasks:
     - name: Load vault password
       include_vars:
-        file: vaultp
+        file: /home/ansibleadmin/ansibleAtHome/vaultp
         name: vaultp
       no_log: true
-
-
 
   tasks:
 
