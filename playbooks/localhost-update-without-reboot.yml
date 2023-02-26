@@ -3,7 +3,7 @@
   tasks:
 
 #### Apt ####
-    - name: "[DEBIAN] Updating cache, installing upgrades, running auotclean and autoremove afterwards"
+    - name: "DEBIAN - Updating cache, installing upgrades, running auotclean and autoremove afterwards"
       apt:
         update_cache: 'yes'
         upgrade: 'yes'
@@ -17,13 +17,13 @@
       when: aptout.stdout_lines is defined
 
 #### DNF ####
-    - name: "[REDHAT] Check packages to upgrade"
+    - name: "REDHAT - Check packages to upgrade"
       dnf:
         list: updates
       register: packages
       when: ansible_facts['os_family'] == "RedHat"
 
-    - name: "[REDHAT] Show packages to upgrade"
+    - name: "REDHAT - Show packages to upgrade"
       debug:
         msg: >-
           {%- set output=[] -%}
@@ -33,13 +33,13 @@
           {{ output }}
       when: ansible_facts['os_family'] == "RedHat"
 
-    - name: "[REDHAT] Upgrade all packages"
+    - name: "REDHAT - Upgrade all packages"
       ansible.builtin.dnf:
         name: "*"
         state: latest
       when: ansible_facts['os_family'] == "RedHat"
 
-    - name: "[REDHAT] Autoremove unneeded packages installed as dependencies"
+    - name: "REDHAT - Autoremove unneeded packages installed as dependencies"
       ansible.builtin.dnf:
         autoremove: yes
       when: ansible_facts['os_family'] == "RedHat"
