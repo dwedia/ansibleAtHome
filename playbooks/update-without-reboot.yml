@@ -1,4 +1,5 @@
-- hosts: all
+- name: Update Playbook, that does not reboot servers
+  hosts: all
   become: true
 
   vars_files:
@@ -24,7 +25,7 @@
       when: aptout.stdout_lines is defined
 
 #### DNF ####
-    - name: [REDHAT] Check packages to upgrade
+    - name: "[REDHAT] Check packages to upgrade"
       dnf:
         list: updates
       register: packages
@@ -107,13 +108,13 @@
       ignore_errors: yes
 
 #### [DEBIAN] Check if reboot is needed ####
-    - name: [DEBIAN] Check if reboot is needed
+    - name: "[DEBIAN] Check if reboot is needed"
       stat:
         path: /var/run/reboot-required
       register: rebootRequired
       when: ansible_facts['os_family'] == "Debian"
 
-    - name: [DEBIAN] Reboot Required
+    - name: "[DEBIAN] Reboot Required"
       debug:
         msg: "Reboot is Required on {{ ansible_hostname }}"
       when: rebootRequired.stat.exists
