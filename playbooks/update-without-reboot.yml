@@ -24,7 +24,7 @@
       when: aptout.stdout_lines is defined
 
 #### DNF ####
-    - name: Check packages to upgrade
+    - name: [REDHAT] Check packages to upgrade
       dnf:
         list: updates
       register: packages
@@ -44,6 +44,7 @@
       ansible.builtin.dnf:
         name: "*"
         state: latest
+        update_only: true
       when: ansible_facts['os_family'] == "RedHat"
 
     - name: Autoremove unneeded packages installed as dependencies
@@ -98,7 +99,6 @@
       debug: msg="{{ flatout.stdout_lines }}"
       when: flatout.stdout_lines is defined
 
-
 #### Reboot Needed ? ####
     - name: Check if a reboot is needed on all servers
       register: reboot_required_file
@@ -106,3 +106,14 @@
       notify: Localhost needs to reboot
       ignore_errors: yes
 
+#### [DEBIAN] Check if reboot is needed ####
+    - name: [DEBIAN] Check if reboot is needed
+      stat:
+        path: /var/run/reboot-required
+      register: rebootRequired
+      when: ansible_facts['os_family'] == "Debian"
+
+    - name: [DEBIAN] Reboot Required
+      debug:
+        msg: "Reboot is Required on {{ ansible_hostname }}"
+      when: rebootRequired.stat.exists
