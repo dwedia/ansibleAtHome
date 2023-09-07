@@ -107,10 +107,10 @@
       register: rebootRequired
       when: ansible_facts['os_family'] == "Debian"
 
-    - name: "[DEBIAN] Reboot Required?"
+    - name: "[DEBIAN] Reboot Required"
       debug:
         msg: "Reboot is Required on {{ ansible_hostname }}"
-      when: (rebootRequired.exists) #and (ansible_facts['os_family'] == "Debian")
+      when: ( rebootRequired.exists ) #and (ansible_facts['os_family'] == "Debian")
 
 #### [REDHAT] Check if reboot is needed ####
     - name: "[REDHAT] Check if needs-restarting is installed"
@@ -124,7 +124,7 @@
       register: needsRestartingStatus
       when: needsRestartingInstalled.exists
 
-    - name: "[RedHat] Reboot Required?"
+    - name: "[RedHat] Reboot Required"
       debug:
         msg: "Reboot is Required on {{ ansible_hostname }}"
       when: needsRestartingStatus.rc == 1
