@@ -100,13 +100,6 @@
       debug: msg="{{ flatout.stdout_lines }}"
       when: flatout.stdout_lines is defined
 
-#### Reboot Needed ? ####
-    - name: Check if a reboot is needed on all servers
-      register: reboot_required_file
-      stat: path=/var/run/reboot-required get_md5=no
-      notify: Localhost needs to reboot
-      ignore_errors: yes
-
 #### [DEBIAN] Check if reboot is needed ####
     - name: "[DEBIAN] Check if reboot is needed"
       stat:
@@ -114,7 +107,24 @@
       register: rebootRequired
       when: ansible_facts['os_family'] == "Debian"
 
-    - name: "[DEBIAN] Reboot Required"
+    - name: "[DEBIAN] Reboot Required?"
       debug:
         msg: "Reboot is Required on {{ ansible_hostname }}"
       when: (rebootRequired.exists) and (ansible_facts['os_family'] == "Debian")
+
+#### [REDHAT] Check if reboot is needed ####
+    - name: "[REDHAT] Check if needs-restarting is installed"
+      stat:
+        path: /usr/bin/needs-restarting
+      register: needsRestartingInstalled
+      when: ansible_facts['os_family'] == "RedHat"
+
+    - name: "[REDHAT] run needs-restarting"
+      shell: needs-restarting
+      register: needsRestartingStatus
+      when: needsRestartingInstalled.exists
+
+    - name: "[RedHat] Reboot Required?"
+      debug:
+        msg: "Reboot is Required on {{ ansible_hostname }}"
+      when: needsRestartingStatus.rc == 1
