@@ -127,4 +127,4 @@
     - name: "[RedHat] Reboot Required"
       debug:
         msg: "Reboot is Required on {{ ansible_hostname }}"
-      when: needsRestartingStatus.rc == 1 and when: ansible_facts['os_family'] == "RedHat"
+      when: needsRestartingStatus.rc == 1 and ansible_facts['os_family'] == "RedHat"
