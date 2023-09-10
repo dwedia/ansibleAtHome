@@ -122,7 +122,7 @@
     - name: "[REDHAT] run needs-restarting"
       shell: needs-restarting
       register: needsRestartingStatus
-      when: needsRestartingInstalled.stat.exists and when: ansible_facts['os_family'] == "RedHat"
+      when: needsRestartingInstalled.stat.exists and ansible_facts['os_family'] == "RedHat"
 
     - name: "[RedHat] Reboot Required"
       debug:
