@@ -99,3 +99,32 @@
     - name: Output from flatpak-command
       debug: msg="{{ flatout.stdout_lines }}"
       when: flatout.stdout_lines is defined
+
+#### [DEBIAN] Check if reboot is needed ####
+    - name: "[DEBIAN] Check if reboot is needed"
+      stat:
+        path: /var/run/reboot-required
+      register: rebootRequired
+      when: ansible_facts['os_family'] == "Debian"
+
+    - name: "[DEBIAN] Reboot Required"
+      debug:
+        msg: "Reboot is Required on {{ ansible_hostname }}"
+      when: rebootRequired is defined  #and (ansible_facts['os_family'] == "Debian")
+
+#### [REDHAT] Check if reboot is needed ####
+    - name: "[REDHAT] Check if needs-restarting is installed"
+      stat:
+        path: /usr/bin/needs-restarting
+      register: needsRestartingInstalled
+      when: ansible_facts['os_family'] == "RedHat"
+
+    - name: "[REDHAT] run needs-restarting"
+      shell: needs-restarting
+      register: needsRestartingStatus
+      when: needsRestartingInstalled.stat.exists and ansible_facts['os_family'] == "RedHat"
+
+    - name: "[RedHat] Reboot Required"
+      debug:
+        msg: "Reboot is Required on {{ ansible_hostname }}"
+      when: needsRestartingStatus.rc == 1 and ansible_facts['os_family'] == "RedHat"
