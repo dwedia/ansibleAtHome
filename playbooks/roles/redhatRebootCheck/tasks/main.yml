@@ -17,11 +17,3 @@
   debug:
     msg: "Reboot is Required on {{ ansible_hostname }}"
   when: redHatNeedsRestartingStatus.rc != 0 and "Reboot is required" in redHatNeedsRestartingStatus.stdout
-
-  #when: redHatNeedsRestartingStatus.rc == 1
-  #when: "'Reboot is required' in redHatNeedsRestartingStatus.stdout"
-
-- name: "[RedHat] Reboot Not Required"
-  debug:
-    msg: "Reboot is Not Required on {{ ansible_hostname }}"
-  when: redHatNeedsRestartingStatus.rc == 0 and "Reboot is required" not in redHatNeedsRestartingStatus.stdout
