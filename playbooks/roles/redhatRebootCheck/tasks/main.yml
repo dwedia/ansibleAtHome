@@ -12,6 +12,7 @@
   register: redHatNeedsRestartingStatus
   when: redHatNeedsRestartingInstalled.stat.exists
   failed_when: "redHatNeedsRestartingStatus.rc not in [0, 1]"
+  changed_when: false
 
 - name: "[RedHat] Reboot Required"
   debug:
