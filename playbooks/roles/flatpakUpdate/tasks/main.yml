@@ -1,0 +1,15 @@
+# Ansible role that updates all flatpaks on a server
+---
+- name: Check for flatpak
+  stat:
+    path: "/usr/bin/flatpak"
+  register: fp_service_status
+
+- name: Update flatpak packages
+  command: /usr/bin/flatpak update -y
+  register: flatout
+  when: fp_service_status.stat.exists
+
+- name: Output from flatpak-command
+  debug: msg="{{ flatout.stdout_lines }}"
+  when: flatout.stdout_lines is defined

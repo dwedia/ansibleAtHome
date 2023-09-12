@@ -1,0 +1,15 @@
+# Update tldr
+---
+- name: Check for TLDR
+  stat:
+    path: "/usr/bin/tldr"
+  register: tldr_service_status
+
+- name: Update TLDR cache
+  command: /usr/bin/tldr -u
+  register: tldrout
+  when: tldr_service_status.stat.exists
+
+- name: Output from TLDR-command
+  debug: msg="{{ tldrout.stdout_lines }}"
+  when: tldrout.stdout_lines is defined

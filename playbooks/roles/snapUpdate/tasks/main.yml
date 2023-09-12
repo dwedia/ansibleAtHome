@@ -1,0 +1,17 @@
+# Ansible role that updates all snap packages on a server
+---
+- name: Check for snap
+  stat:
+    path: "/usr/bin/snap"
+  register: sd_service_status
+
+- name: Update snap packages
+  command: /usr/bin/snap refresh
+  register: snapout
+  when: sd_service_status.stat.exists
+
+- name: Output from snap-command
+  ansible.builtin.debug:
+    #msg: "{{ snapout.stdout_lines | replace('\u001b[0m\u001b[?25h\u001b[K', 'All snaps up to date.') }}"
+    msg: "{{ snapout.stdout_lines }}"
+  when: snapout.stdout_lines is defined

@@ -1,0 +1,24 @@
+#
+---
+- name: "REDHAT - Check packages to upgrade"
+  dnf:
+    list: updates
+  register: packages
+
+- name: "REDHAT - Show packages to upgrade"
+  debug:
+    msg: >-
+      {%- set output=[] -%}
+      {%- for p in packages.results -%}
+      {{ output.append('%-40s' % (p.name ~ '-' ~ p.version) ~ ' | repo: ' ~ p.repo) }}
+      {%- endfor -%}
+      {{ output }}
+
+- name: "REDHAT - Upgrade all packages"
+  ansible.builtin.dnf:
+    name: "*"
+    state: latest
+
+- name: "REDHAT - Autoremove unneeded packages installed as dependencies"
+  ansible.builtin.dnf:
+    autoremove: yes
