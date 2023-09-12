@@ -7,6 +7,7 @@
   when: ansible_facts['os_family'] == "RedHat"
 
 - name: install yum-utils, if not installed
+  become: true
   yum:
     name: yum-utils
     state: present
