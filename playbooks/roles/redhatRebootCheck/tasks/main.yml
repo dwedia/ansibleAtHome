@@ -15,4 +15,4 @@
 - name: "[RedHat] Reboot Required"
   debug:
     msg: "Reboot is Required on {{ ansible_hostname }}"
-  when: redHatNeedsRestartingStatus.rc == 1
+  when: 'Reboot is required' in redHatNeedsRestartingStatus.stdout
