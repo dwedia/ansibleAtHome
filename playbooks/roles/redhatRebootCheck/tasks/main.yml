@@ -9,7 +9,7 @@
 - name: "[REDHAT] run needs-restarting"
   become: true
   shell: needs-restarting -r
-  register: redHatNeedsRestartingStatus.rc
+  register: redHatNeedsRestartingStatus
   when: redHatNeedsRestartingInstalled.stat.exists
 
 - name: "[RedHat] Reboot Required"
