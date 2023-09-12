@@ -6,6 +6,12 @@
   register: redHatNeedsRestartingInstalled
   when: ansible_facts['os_family'] == "RedHat"
 
+- name: install yum-utils, if not installed
+  yum:
+    name: yum-utils
+    state: present
+  when: ansible_facts['os_family'] == "RedHat" and not redHatNeedsRestartingInstalled.stat.exists
+
 - name: "[REDHAT] run needs-restarting"
   shell: needs-restarting
   register: redHatNeedsRestartingStatus
