@@ -7,7 +7,7 @@
   when: ansible_facts['os_family'] == "RedHat"
 
 - name: "[REDHAT] run needs-restarting"
-  shell: needs-restarting -r
+  shell: sudo needs-restarting -r
   register: redHatNeedsRestartingStatus
   when: redHatNeedsRestartingInstalled.stat.exists
   failed_when: "redHatNeedsRestartingStatus.rc not in [0, 1]"
