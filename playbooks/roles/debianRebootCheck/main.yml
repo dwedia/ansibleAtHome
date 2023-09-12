@@ -1,0 +1,12 @@
+#### [DEBIAN] Check if reboot is needed ####
+---
+- name: "[DEBIAN] Check if reboot is needed"
+  stat:
+    path: /var/run/reboot-required
+  register: debianRebootRequired
+  when: ansible_facts['os_family'] == "Debian"
+
+- name: "[DEBIAN] Reboot Required"
+  debug:
+    msg: "Reboot is Required on {{ ansible_hostname }}"
+  when: debianRebootRequired is defined
