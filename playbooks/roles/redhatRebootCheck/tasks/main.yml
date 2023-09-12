@@ -9,10 +9,11 @@
 - name: "[REDHAT] run needs-restarting"
   become: true
   shell: needs-restarting -r
-  register: redHatNeedsRestartingStatus
+  register: redHatNeedsRestartingStatus.rc
   when: redHatNeedsRestartingInstalled.stat.exists
 
 - name: "[RedHat] Reboot Required"
   debug:
     msg: "Reboot is Required on {{ ansible_hostname }}"
-  when: "'Reboot is required' in redHatNeedsRestartingStatus.stdout"
+  when: redHatNeedsRestartingStatus.rc <= 1
+  #when: "'Reboot is required' in redHatNeedsRestartingStatus.stdout"
