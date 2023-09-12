@@ -3,6 +3,7 @@
 ---
 - name: playbook to update all packages on servers
   hosts: all
+  become: true
   roles:
     - role: aptUpdate
       when: ansible_facts['os_family'] == "Debian"
@@ -15,5 +16,4 @@
     - role: debianRebootCheck
       when: ansible_facts['os_family'] == "Debian"
     - role: redhatRebootCheck
-      become: true
       when: ansible_facts['os_family'] == "RedHat"
