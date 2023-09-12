@@ -5,3 +5,5 @@
   roles:
     - role: debianRebootCheck
       when: ansible_facts['os_family'] == "Debian"
+    - role: redhatRebootCheck
+      when: ansible_facts['os_family'] == "RedHat"
