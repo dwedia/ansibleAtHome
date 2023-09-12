@@ -11,12 +11,13 @@
   shell: needs-restarting -r
   register: redHatNeedsRestartingStatus
   when: redHatNeedsRestartingInstalled.stat.exists
+  failed_when: redHatNeedsRestartingStatus.rc <=2
 
 - name: "[RedHat] Reboot Required"
   debug:
     msg: "Reboot is Required on {{ ansible_hostname }}"
   when: redHatNeedsRestartingStatus.rc != 0 and "Reboot is required" in redHatNeedsRestartingStatus.stdout
-  failed_when: redHatNeedsRestartingStatus.rc <=2
+
   #when: redHatNeedsRestartingStatus.rc == 1
   #when: "'Reboot is required' in redHatNeedsRestartingStatus.stdout"
 
