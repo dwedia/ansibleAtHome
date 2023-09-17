@@ -15,5 +15,5 @@
 
     - name: Print out pihole update information
       ansible.builtin.debug:
-        msg: piUpdate.stdout
+        msg: "{{ piUpdate.stdout }}"
       when: piUpdate is defined
