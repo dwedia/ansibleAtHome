@@ -3,7 +3,7 @@
 ---
 - name: Update Pihole on pihole servers
   become: false
-  remote_user: ramiraz
+  #remote_user: ramiraz
   hosts: pihole
 
   tasks:
