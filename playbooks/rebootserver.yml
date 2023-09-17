@@ -4,7 +4,7 @@
 ---
 - name: Reboot server ONLY USE WITH LIMIT
   hosts: all
-  become: yes
+  become: true
 
 #  vars_files:
 #    - /home/ansibleadmin/ansibleAtHome/playbooks/vault/vaultfile.yml
@@ -14,12 +14,12 @@
 
   tasks:
     - name: Wait for user confirmation
-      pause:
+      ansible.builtin.pause:
         seconds: 300
         prompt: "Press ctrl+c to continue or wait 300 seconds - DID YOU REMEMBER TO USE LIMIT?"
 
     - name: Reboot Debian based servers
-      reboot:
+      ansible.builtin.reboot:
       when: ansible_facts['os_family'] == "Debian"
 
     - name: Reboot RedHat based servers
