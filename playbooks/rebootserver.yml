@@ -6,8 +6,8 @@
   hosts: all
   become: yes
 
-  vars_files:
-    - /home/ansibleadmin/ansibleAtHome/playbooks/vault/vaultfile.yml
+#  vars_files:
+#    - /home/ansibleadmin/ansibleAtHome/playbooks/vault/vaultfile.yml
 
   vars:
     ansible_become_pass: "{{ sudo_password }}"
