@@ -9,8 +9,8 @@
 #  vars_files:
 #    - /home/ansibleadmin/ansibleAtHome/playbooks/vault/vaultfile.yml
 
-  vars:
-    ansible_become_pass: "{{ sudo_password }}"
+#  vars:
+#    ansible_become_pass: "{{ sudo_password }}"
 
   tasks:
     - name: Wait for user confirmation
