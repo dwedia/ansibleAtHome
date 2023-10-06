@@ -2,10 +2,11 @@
 ---
 - name: Check for ClamAV
   stat:
-    path: "/usr/bin/clamscan"
+    path: "/usr/bin/freshclam"
   register: cl_service_status
 
 - name: Update clamav
+  become: true
   command: /usr/bin/freshclam --verbose
   register: clamout
   when: cl_service_status.stat.exists
