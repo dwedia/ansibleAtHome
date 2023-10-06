@@ -1,0 +1,18 @@
+## Ansible file for upgrading all packages
+# indentation: 2 spaces
+---
+- name: playbook to update all packages on servers
+  hosts: localhost
+  become: true
+  roles:
+    - role: aptUpdate
+      when: ansible_facts['os_family'] == "Debian"
+    - role: dnfUpdate
+      when: ansible_facts['os_family'] == "RedHat"
+    - role: snapUpdate
+    - role: flatpakUpdate
+    - role: clamavUpdate
+    - role: debianRebootCheck
+      when: ansible_facts['os_family'] == "Debian"
+    - role: redhatRebootCheck
+      when: ansible_facts['os_family'] == "RedHat"
