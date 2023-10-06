@@ -1,19 +1,25 @@
 #### [REDHAT] Check if reboot is needed ####
 ---
+- name: "[REDHAT] Ensure that yum-utils is installed"
+  ansible.builtin.dnf:
+    name: yum-utils
+    state: present
+  when: ansible_facts['os_family'] == "RedHat"
+
 - name: "[REDHAT] Check if needs-restarting is installed"
-  stat:
+  ansible.builtin.stat:
     path: /usr/bin/needs-restarting
   register: redHatNeedsRestartingInstalled
   when: ansible_facts['os_family'] == "RedHat"
 
 - name: "[REDHAT] run needs-restarting"
-  shell: sudo needs-restarting -r
+  ansible.builtin.shell: sudo needs-restarting -r
   register: redHatNeedsRestartingStatus
   when: redHatNeedsRestartingInstalled.stat.exists
   failed_when: "redHatNeedsRestartingStatus.rc not in [0, 1]"
   changed_when: false
 
 - name: "[RedHat] Reboot Required"
-  debug:
+  ansible.builtin.debug:
     msg: "Reboot is Required on {{ ansible_hostname }}"
   when: redHatNeedsRestartingStatus.rc != 0 and "Reboot is required" in redHatNeedsRestartingStatus.stdout
