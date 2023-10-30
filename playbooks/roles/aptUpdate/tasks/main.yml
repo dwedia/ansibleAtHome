@@ -1,7 +1,7 @@
 # Role that updates all apt packages on a Debian based server
 ---
 - name: "DEBIAN - Updating cache, installing upgrades, running auotclean and autoremove afterwards"
-  apt:
+  ansible.builtin.apt:
     update_cache: 'yes'
     upgrade: 'yes'
     autoclean: 'yes'
@@ -9,5 +9,5 @@
   register: aptout
 
 - name: Output APT
-  debug: msg="{{ aptout.stdout_lines }}"
+  ansible.builtin.debug: msg="{{ aptout.stdout_lines }}"
   when: aptout.stdout_lines is defined

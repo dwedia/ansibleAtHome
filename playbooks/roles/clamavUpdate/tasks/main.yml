@@ -1,16 +1,17 @@
 # Playbook that updates ClamAV definitions
 ---
 - name: Check for ClamAV
-  stat:
+  ansible.builtin.stat:
     path: "/usr/bin/freshclam"
   register: cl_service_status
 
 - name: Update clamav
   become: true
-  command: /usr/bin/freshclam --verbose
+  ansible.builtin.command: /usr/bin/freshclam --verbose
   register: clamout
   when: cl_service_status.stat.exists
+  changed_when: false
 
 - name: Output from CLAMAV-command
-  debug: msg="{{ clamout.stdout_lines }}"
+  ansible.builtin.debug: msg="{{ clamout.stdout_lines }}"
   when: clamout.stdout_lines is defined
