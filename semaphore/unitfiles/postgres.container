@@ -5,7 +5,7 @@ Description=postgres
 [Container]
 Image=docker.io/postgres:14
 ContainerName=postgres
-Hostname=postgress
+HostName=postgres
 
 Volume=/opt/podmnts/semaphore-postgres:/var/lib/postgresql/data:Z
 

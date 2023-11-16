@@ -8,18 +8,7 @@ Image=docker.io/semaphoreui/semaphore:latest
 PublishPort=3000:3000
 ContainerName=SemaphoreUI
 Network=semaphore.network
-
-Environment=SEMAPHORE_DB_HOST=192.168.30.10
-Environment=SEMAPHORE_DB_PORT=5432
-Environment=SEMAPHORE_DB_DIALECT=postgres
-Environment=SEMAPHORE_DB=semaphore
-Environment=SEMAPHORE_PLAYBOOK_PATH=/tmp/semaphore/
-Environment=SEMAPHORE_LDAP_ACTIVATED='no'
-Environment=
-
-
 EnvironmentFile=semaphore.env
-
 
 [Service]
 # Restart service when sleep finishes
