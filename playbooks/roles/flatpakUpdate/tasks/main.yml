@@ -1,7 +1,7 @@
 # Ansible role that updates all flatpaks on a server
 ---
 - name: Check for flatpak
-  ansible.buiĺtin.stat:
+  ansible.builtin.stat:
     path: "/usr/bin/flatpak"
   register: fp_service_status
 
