@@ -1,7 +1,11 @@
 # Ansible role that updates all flatpaks on a server
 ---
 - name: Check for flatpak
+<<<<<<< HEAD
   ansible.builtin.stat:
+=======
+  ansible.buiĺtin.stat:
+>>>>>>> 8684f50 (commit)
     path: "/usr/bin/flatpak"
   register: fp_service_status
 
